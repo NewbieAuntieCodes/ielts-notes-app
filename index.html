@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>雅思口语笔记</title>
+
+    <link href="./libs/quill.snow.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div id="sidebar">
+        <div id="sidebar-content-wrapper">
+          <h2>目录</h2>
+          <ul id="directory-list"></ul>
+
+          <div id="add-topic-area" class="hidden">
+            <input
+              type="text"
+              id="new-topic-input"
+              placeholder="输入新话题名称..."
+            />
+            <button id="confirm-add-topic-btn">添加</button>
+            <button id="cancel-add-topic-btn">取消</button>
+            <input type="hidden" id="current-parent-id" />
+          </div>
+        </div>
+      </div>
+      <div id="resize-handle"></div>
+
+      <div id="content">
+        <h1>内容区</h1>
+        <p>请在左侧选择一个话题...</p>
+        <div id="toolbar-container"></div>
+        <div id="editor-container" style="height: calc(100vh - 120px)"></div>
+      </div>
+    </div>
+    <script src="./node_modules/sortablejs/Sortable.min.js"></script>
+
+    <script src="./libs/quill.js"></script>
+
+    <script src="renderer.js"></script>
+  </body>
+</html>

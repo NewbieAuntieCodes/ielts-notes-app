@@ -1,0 +1,23 @@
+{
+  "name": "ielts-notes-app",
+  "version": "1.0.0",
+  "description": "A simple IELTS Speaking note-taking",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "electron,notes,ielts"
+  ],
+  "author": "Yihuan-Xu",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "^35.2.1"
+  },
+  "dependencies": {
+    "quill": "^2.0.3",
+    "sortablejs": "^1.15.6",
+    "turndown": "^7.2.0"
+  }
+}

@@ -1,0 +1,8 @@
+# Dependencies
+node_modules/
+
+# Optional: other files/folders you might want to ignore
+# .env
+# build/
+# dist/
+# *.log

@@ -1,0 +1,462 @@
+/* style.css */
+
+/* 基础重置和全局设置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* 让 padding 和 border 不会增加元素总宽度/高度 */
+}
+
+html,
+body {
+  height: 100%; /* 让 html 和 body 占据整个视口高度 */
+  font-family: sans-serif; /* 设置一个默认字体 */
+  overflow: hidden; /* 防止出现意外的滚动条 */
+}
+
+/* 主容器样式 */
+.container {
+  display: flex; /* 使用 Flexbox 布局 */
+  height: 100%; /* 让容器占据父元素 (body) 的全部高度 */
+}
+
+/* 侧边栏样式 */
+#sidebar {
+  flex-basis: 250px; /* 设置一个初始的基础宽度 */
+  min-width: 150px; /* 设置一个最小宽度，防止拖得太窄 */
+  max-width: 600px; /* (可选) 设置一个最大宽度 */
+  height: 100%;
+  background-color: #f0f0f0;
+  /* padding: 15px; */
+  border-right: 1px solid #ccc; /* 保留右边框，视觉上与 handle 分开 */
+  /* overflow-y: auto; */
+  /* **新增：确保侧边栏本身不能被选中 (拖动时需要)** */
+  user-select: none;
+  /* **新增：允许收缩，但不允许过分增长 (内容区会增长)** */
+  flex-shrink: 0; /* 防止被过度压缩 */
+  flex-grow: 0; /* 不主动增长 */
+  /* **新增：让 sidebar 成为 flex 容器，垂直排列其子元素** */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* 防止 sidebar 自身出现滚动条或内容溢出 */
+}
+
+/* 新增：侧边栏内部内容包裹层的样式 */
+#sidebar-content-wrapper {
+  flex-grow: 1; /* **让包裹层占据所有可用垂直空间** */
+  overflow-y: auto; /* **在这里设置滚动** */
+  padding: 15px; /* **把内边距移到这里** */
+  /* 可以考虑加个 min-height: 0; 解决一些 flex 压缩问题 */
+  min-height: 0;
+}
+
+/* (可选) 如果 h2 需要调整间距 */
+#sidebar-content-wrapper > h2 {
+  margin-bottom: 10px; /* 例如，给标题下方加点间距 */
+  flex-shrink: 0; /* 防止标题被压缩 */
+}
+
+#sidebar-content-wrapper > #add-topic-area {
+  flex-shrink: 0; /* 防止输入区域被压缩 */
+}
+/* 新增：拖动条样式 */
+#resize-handle {
+  width: 5px; /* 拖动条的宽度 */
+  height: 100%;
+  background-color: #dcdcdc; /* 拖动条颜色 */
+  cursor: col-resize; /* 设置鼠标悬停时的光标样式 (列调整) */
+  flex-shrink: 0; /* 防止被压缩 */
+}
+
+#sidebar ul ul {
+  list-style-type: none; /* 移除项目符号 */
+  padding-left: 20px; /* !! 关键：添加左内边距实现缩进效果 */
+  margin-top: 5px; /* （可选）在父项和子列表之间增加一点上边距 */
+}
+
+#sidebar ul ul li {
+  padding: 5px 0; /* 子项的垂直间距 */
+  border: none !important; /* 子项无边框 */
+  font-size: 13px; /* 子项字体大小 */
+  color: #555; /* 子项颜色 */
+  /* 继承 cursor: pointer 和 :hover */
+}
+
+/* 内容区样式 */
+#content {
+  flex-grow: 1; /* 占据剩余的所有可用空间 */
+  height: 100%; /* 占据容器全部高度 */
+  padding: 20px; /* 内边距 */
+  overflow-y: auto; /* 如果内容超出，则显示垂直滚动条 */
+  background-color: #ffffff; /* 白色背景 */
+  /* **新增：确保内容区也能处理宽度变化** */
+  min-width: 200px; /* (可选) 给内容区也设个最小宽度 */
+}
+
+/* 侧边栏和内容区标题的简单样式 */
+#sidebar h2,
+#content h1 {
+  margin-bottom: 15px; /* 标题下方增加一些间距 */
+  color: #333; /* 深灰色文字 */
+}
+
+/* 目录列表样式 */
+#directory-list {
+  list-style-type: none; /* 移除默认的项目符号 (小圆点) */
+  padding-left: 10px; /* 左侧稍微缩进一点 */
+}
+
+#directory-list li {
+  padding: 8px 0 8px 0; /* 增加列表项的垂直内边距，让它们分开点 */
+  cursor: pointer; /* 鼠标悬停时显示手型指针，暗示可以点击 */
+  border-bottom: 1px solid #e0e0e0; /* 给每个列表项加个底部分隔线 (可选) */
+  font-size: 14px; /* 可以调整字体大小 */
+  color: #333; /* 顶级项颜色 */
+  cursor: pointer;
+}
+
+/* 最后一个列表项移除底部分隔线 (可选) */
+#directory-list li:last-child {
+  border-bottom: none;
+}
+
+/* 鼠标悬停效果 (可选) */
+#directory-list li:hover {
+  background-color: #e9e9e9; /* 鼠标悬停时改变背景色 */
+}
+
+/* 子列表 (嵌套列表) 的样式 */
+.sub-list {
+  list-style-type: none; /* 同样移除项目符号 */
+  padding-left: 20px; /* !! 关键：添加左内边距实现缩进效果 */
+  margin-top: 5px; /* （可选）在父项和子列表之间增加一点上边距 */
+}
+
+/* 子列表项的样式 */
+.sub-list li {
+  padding: 5px 0; /* 可以让子项的垂直间距小一点 */
+  border: none; /* 子项通常不需要分隔线 */
+  font-size: 13px; /* 可以让子项的字体小一点 */
+  color: #555; /* 可以让子项的颜色浅一点 */
+  /* 继承父级的 cursor: pointer 和 :hover 效果 */
+}
+
+/* 覆盖掉之前 li 的下边框，确保父级 Part 1 没有双边框 */
+#directory-list > li {
+  /* 使用 '>' 选择器确保只选中顶级 li */
+  border-bottom: 1px solid #e0e0e0;
+}
+#directory-list > li:last-child {
+  border-bottom: none;
+}
+/* 确保嵌套列表内的 li 没有边框 */
+#directory-list li ul li {
+  border-bottom: none !important; /* 强制无边框 */
+}
+
+/* （可选）调整顶级列表项的样式，使其包含子项时看起来更好 */
+#directory-list > li {
+  /* 使用 '>' 选择器确保只选中顶级 li */
+  /* 可以稍微调整下顶级项的内边距或样式 */
+  padding-bottom: 8px; /* 确保子项展开后有足够空间 */
+}
+
+/* 之前为题型 li 设置的 flex 布局 */
+#part1-sublist > li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* 新增：允许内容换行 */
+  flex-wrap: wrap;
+  padding: 6px 0;
+}
+
+/* 新增：让题型 li 下直接嵌套的 ul (话题列表) 占据完整宽度并换行 */
+#part1-sublist > li > ul {
+  flex-basis: 100%; /* 占据父容器的全部宽度 */
+  margin-top: 5px; /* 和父项的文字/按钮之间加点间距 */
+  padding-left: 20px; /* 保持或调整缩进 */
+  list-style: none; /* 确保没有项目符号 */
+}
+
+/* 添加话题按钮的样式 */
+.add-topic-btn {
+  background-color: #4caf50; /* 绿色背景 */
+  color: white; /* 白色文字 */
+  border: none; /* 无边框 */
+  padding: 2px 6px; /* 按钮内边距 (调整大小) */
+  font-size: 12px; /* 字体大小 */
+  cursor: pointer; /* 手型光标 */
+  border-radius: 3px; /* 圆角 */
+  margin-left: 10px; /* 与左侧文本的间距 */
+  flex-shrink: 0; /* 防止按钮被压缩 */
+}
+
+.add-topic-btn:hover {
+  background-color: #45a049; /* 悬停时深一点的绿色 */
+}
+
+/* 确保更深层嵌套的 li 样式不受影响 (如果需要) */
+#sidebar ul ul ul li {
+  display: block;
+  padding: 5px 0;
+  justify-content: initial;
+  align-items: initial;
+}
+
+/* 输入区域的样式 */
+#add-topic-area {
+  margin-top: 20px; /* 输入区域距离上方内容的间距 */
+  padding-top: 10px; /* 输入区域内部的上边距 */
+  border-top: 1px solid #ccc; /* 在输入区域上方加一条分割线 */
+}
+
+/* 这个类用来隐藏元素 */
+#add-topic-area.hidden {
+  display: none; /* 设置为不显示 */
+}
+
+/* 输入框样式 */
+#add-topic-area input[type="text"] {
+  width: calc(100% - 110px); /* 输入框宽度，留出空间给按钮 */
+  padding: 5px; /* 内边距 */
+  margin-right: 5px; /* 右边距 */
+  border: 1px solid #ccc; /* 边框 */
+  border-radius: 3px; /* 圆角 */
+}
+
+/* 输入区域里的按钮通用样式 */
+#add-topic-area button {
+  padding: 5px 10px; /* 按钮内边距 */
+  cursor: pointer; /* 鼠标悬停显示手型 */
+  border-radius: 3px; /* 圆角 */
+  border: 1px solid #ccc; /* 边框 */
+}
+
+/* “添加”按钮特定样式 */
+#confirm-add-topic-btn {
+  background-color: #4caf50; /* 绿色背景 */
+  color: white; /* 白色文字 */
+  border-color: #4caf50; /* 边框颜色 */
+  margin-right: 5px; /* 右边距 */
+}
+
+/* “取消”按钮特定样式 */
+#cancel-add-topic-btn {
+  background-color: #f44336; /* 红色背景 */
+  color: white; /* 白色文字 */
+  border-color: #f44336; /* 边框颜色 */
+}
+
+/* 动态添加的话题列表项 (.topic-item) 的样式 */
+.topic-item {
+  display: flex; /* 使用 Flexbox 布局 */
+  justify-content: space-between; /* 文本在左，按钮在右 */
+  align-items: center; /* 垂直居中 */
+  padding: 4px 0; /* 调整内边距 */
+  margin-left: 0; /* 确保没有额外的从父级继承的缩进 */
+  /* 继承字体大小、颜色等，或者可以单独设置 */
+  font-size: 13px;
+  color: #555;
+}
+
+/* 话题文本的 span (如果需要可以添加特定样式) */
+.topic-item > span {
+  flex-grow: 1; /* 让文本占据尽可能多的空间 */
+  margin-right: 5px; /* 和右侧删除按钮之间加点间距 */
+}
+
+/* 删除按钮 (.delete-topic-btn) 的样式 */
+.delete-topic-btn {
+  background-color: #f44336; /* 红色背景 */
+  color: white; /* 白色文字 "X" */
+  border: none; /* 无边框 */
+  padding: 1px 5px; /* 调整按钮大小 */
+  font-size: 10px; /* 字体可以小一点 */
+  font-weight: bold;
+  cursor: pointer; /* 手型光标 */
+  border-radius: 3px; /* 圆角 */
+  flex-shrink: 0; /* 防止按钮被压缩 */
+  line-height: 1; /* 确保文字垂直居中 */
+}
+
+.delete-topic-btn:hover {
+  background-color: #d32f2f; /* 悬停时深一点的红色 */
+}
+
+/* 确保之前的 #sidebar ul ul ul li 选择器如果不再需要，可以移除或注释掉 */
+/* 比如这个可能不再需要了，因为我们用了 .topic-item 类 */
+/*
+#sidebar ul ul ul li {
+ display: block;
+ padding: 5px 0;
+ justify-content: initial;
+ align-items: initial;
+}
+*/
+
+/* 选中项的高亮样式 */
+#sidebar li.selected-item > span, /* 高亮固定li(题型)里的span */
+#sidebar li.selected-item > .topic-text /* 高亮动态li(话题)里的span */ {
+  background-color: #d4eaff; /* 淡蓝色背景 */
+  font-weight: bold; /* 字体加粗 */
+  display: inline-block; /* 或者 block，根据需要调整 */
+  padding: 2px 4px; /* 轻微内边距 */
+  border-radius: 3px;
+  color: #0056b3; /* 可以改变文字颜色 */
+}
+/* 如果你想高亮整个 li 背景，用下面这个代替上面的 */
+/*
+#sidebar li.selected-item {
+    background-color: #d4eaff;
+}
+*/
+
+/* 重命名时使用的输入框样式 */
+.rename-input {
+  border: 1px solid #007bff; /* 蓝色边框提示编辑状态 */
+  padding: 1px 3px;
+  font-size: inherit; /* 继承 li 的字体大小 */
+  color: inherit; /* 继承 li 的字体颜色 */
+  font-family: inherit;
+  /* 可以根据需要调整宽度、高度等 */
+  /* width: calc(100% - 50px); /* 示例：减去按钮宽度 */
+}
+
+/* --- 新增：问答对相关样式 --- */
+
+/* 右下角状态提示框的样式 */
+#save-status-bar {
+  position: fixed; /* 固定在视口 */
+  bottom: 15px; /* 距离底部 */
+  right: 20px; /* 距离右侧 */
+  padding: 8px 15px; /* 内边距 */
+  border-radius: 4px; /* 圆角 */
+  font-size: 13px; /* 字体大小 */
+  z-index: 1000; /* 确保在最上层 */
+  opacity: 0; /* 初始透明，通过 JS 控制显隐 */
+  transition: opacity 0.4s ease-in-out; /* 淡入淡出动画 */
+  color: white; /* 文字颜色 (白色) */
+  background-color: #28a745; /* 默认背景色 (绿色)，JS 会根据情况覆盖 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+}
+
+/* 保存状态提示文字的样式 */
+.save-status {
+  margin-left: 10px; /* 和保存按钮的距离 */
+  font-size: 12px; /* 字体小一点 */
+  /* 颜色在 JS 中动态设置 (green/red) */
+}
+
+/* 内容区标题编辑输入框样式 */
+.title-rename-input {
+  font-size: 1.8em; /* 尝试匹配 h1 的大小 */
+  font-weight: bold;
+  padding: 3px 6px;
+  border: 1px solid #007bff; /* 蓝色边框提示正在编辑 */
+  border-radius: 3px;
+  /* 可以根据需要调整 margin 或其他样式 */
+  margin-bottom: 10px; /* 保持和下方编辑器的间距 */
+  display: inline-block; /* 也许需要调整 display 属性 */
+}
+
+/* --- 子话题内容预览区域样式 --- */
+
+/* 包裹所有子话题预览的总容器 */
+#child-content-display {
+  margin-top: 30px; /* 与父编辑器/保存按钮的距离 */
+  padding-top: 25px; /* 内部上边距 */
+  border-top: 2px dashed #ccc; /* 顶部分隔虚线 */
+}
+
+/* 每个子话题预览的独立容器 */
+.child-item-preview {
+  margin-bottom: 25px; /* 子话题之间的垂直间距 */
+  padding-left: 10px; /* 左侧稍微缩进 */
+  border-left: 3px solid #007bff; /* 左侧加一条蓝色竖线，表示层级 */
+}
+
+/* 子话题预览的标题 (h3) */
+.child-item-preview h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #0056b3; /* 标题颜色 */
+  font-size: 1.1em; /* 比父标题小一点 */
+}
+
+/* 显示子话题只读内容的 div */
+.child-content-readonly {
+  padding: 15px; /* 内边距 */
+  border: 1px solid #e8e8e8; /* 更浅的边框 */
+  border-radius: 4px;
+  background-color: #fefefe; /* 非常浅的背景色 */
+  min-height: 50px; /* 最小高度 */
+  word-wrap: break-word; /* 自动换行 */
+  /* 继承父级的字体等，或者可以单独设置 */
+  /* font-size: 14px; */
+  /* line-height: 1.5; */
+}
+
+/* （可选）确保子内容区域的 Quill 默认样式被覆盖或调整 */
+.child-content-readonly .ql-editor {
+  /* 如果内容包含 Quill 的类 */
+  padding: 0; /* 移除 Quill 编辑器的内边距 */
+  /* 其他覆盖样式 */
+}
+.child-content-readonly p {
+  /* 调整段落间距 */
+  margin-bottom: 0.5em;
+}
+.child-content-readonly h1,
+.child-content-readonly h2,
+.child-content-readonly h3 {
+  /* 调整标题间距 */
+  margin-top: 0.8em;
+  margin-bottom: 0.3em;
+}
+
+/* 每个后代项预览的独立容器 (包含标题和内容) */
+.descendant-item-preview {
+  margin-bottom: 15px; /* 项之间的垂直间距 */
+  padding-left: 10px; /* 左侧基线内边距 */
+  /* 缩进由 JS 中的 style.marginLeft 控制 */
+  border-left: 2px solid #ddd; /* 浅灰色左边框 */
+  padding-bottom: 5px; /* 底部留一点空间 */
+}
+
+/* 后代项标题 (h3, h4, h5...) */
+.descendant-item-preview h3,
+.descendant-item-preview h4,
+.descendant-item-preview h5,
+.descendant-item-preview h6 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #333; /* 深灰色标题 */
+  font-weight: 600; /* 稍粗一点 */
+}
+
+/* 显示后代只读内容的 div */
+.descendant-content-readonly {
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  background-color: #fdfdfd;
+  min-height: 30px; /* 可以减小最小高度 */
+  word-wrap: break-word;
+  font-size: 0.9em; /* 字体稍小 */
+  color: #444;
+}
+
+/* （可选）覆盖子内容区域的 Quill 样式 */
+.descendant-content-readonly .ql-editor {
+  padding: 0;
+}
+.descendant-content-readonly p {
+  margin-bottom: 0.4em;
+}
+.descendant-content-readonly h1,
+.descendant-content-readonly h2,
+.descendant-content-readonly h3 {
+  margin-top: 0.6em;
+  margin-bottom: 0.2em;
+}
